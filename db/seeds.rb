@@ -6,7 +6,7 @@ schools = School.create([
       city: 'Bainbridge', 
       state: 'OH',
       zip: '45612',
-      logo_location: '/logos/Paint_Valley.jpg'
+      logo_location: 'logos/PaintValley.png'
     },
     {
         name: 'Adena',
@@ -15,7 +15,7 @@ schools = School.create([
         city: 'Frankfort',
         state: 'OH',
         zip: '45628',
-        logo_location: '/logos/Adena.png'
+        logo_location: 'logos/Adena.png'
     },
     {
         name: 'Piketon',
@@ -24,16 +24,16 @@ schools = School.create([
         city: 'Piketon',
         state: 'OH',
         zip: '45661',
-        logo_location: '/logos/Piketon.png'
+        logo_location: 'logos/Piketon.png'
     },
     {
         name: 'Unioto',
-        mascot: 'Tanks',
+        mascot: 'Shermans',
         address1: '14193 Pleasant Valley Road', 
         city: 'Chillicothe', 
         state: 'OH',
         zip: '45601',
-        logo_location: '/logos/unioto.png'
+        logo_location: 'logos/Unioto.png'
       }
 ])
 
@@ -55,7 +55,7 @@ games = Game.create([
         gender: "Boys",
         level: "Varsity",
         home_team_id: 1,
-        visiting_team_id: 3,
+        visiting_team_id: 4,
         max_capacity: "1000",
         location: "Paint Valley High School",
         event_start: DateTime.new(2020, 9, 8, 15, 15),
