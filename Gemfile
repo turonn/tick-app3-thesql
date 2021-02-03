@@ -25,6 +25,12 @@ gem 'jbuilder', '~> 2.7'
 #Use Divise https://github.com/heartcombo/devise
 gem 'devise'
 
+#use Admin https://github.com/sferik/rails_admin
+gem 'rails_admin', '~> 2.0'
+
+#Adds CanCanCan https://github.com/CanCanCommunity/cancancan
+gem 'cancancan'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
