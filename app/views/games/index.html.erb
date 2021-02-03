@@ -1,14 +1,29 @@
+<style>
+  .calendarTop {
+    backgroundColor: "orange";
+    borderRadius: "4px";
+    border: "1px solid grey";
+    marginLeft: "40px";
+    marginRight: "40px";
+  }
+  .month {
+    fontSize: "1rem";
+  }
+  .calendarCard {
+    paddingBottom: 0;
+  }
+  .calendarBottom {
+    backgroundColor: "white"; 
+    borderBottomLeftRadius: "4px"; 
+    borderBottomRightRadius:"4px";
+    borderTop: "1px solid grey";
+    fontSize: "3rem";
+    padding: 1;
+  },
+</style>
+
 <p>This is the games index</p>
-<ul>
-    <% @games.each do |game| %>
-    <li><%= game.id %></li>
-    <ul>
-    <% game.as_json.each do |key, value| %>
-        <li><%= "#{key}, #{value}" %></li>
-        <% end %>
-    </ul>
-    <% end %>
- </ul>
+
 <% @games.each do |game| %>
 <div class='center-align'>
   <div class="row center-align">
@@ -33,7 +48,16 @@
             </div>
           </div>
           <div class ='col s6'>
-            <%= game.event_start %>
+            <div class='white-background'>
+                <div class='calendarCard'>
+                    <div class='calendarTop'>
+                        <p class='month'>month</p>
+                        <p class='calendarBottom'>00</p>
+                    </div>
+                    <p>day of week</p>
+                    <p>time</p>
+                </div>
+            </div>
           </div>
         </div>
         <div class="card-action">
