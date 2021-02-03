@@ -1,0 +1,11 @@
+<p>This is the games index</p>
+<ul>
+    <% @games.each do |game| %>
+    <li><%= game.id %></li>
+    <ul>
+    <% game.as_json.each do |key, value| %>
+        <li><%= "#{key}, #{value}" %></li>
+        <% end %>
+    </ul>
+    <% end %>
+ </ul>
