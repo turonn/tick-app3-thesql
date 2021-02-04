@@ -1,5 +1,6 @@
 class GamesController < ApplicationController
     before_action :set_game, only: [:show, :edit, :update, :destroy]
+    before_action :load_cart
 
     def show
     end
@@ -70,6 +71,10 @@ class GamesController < ApplicationController
     end
 
     private
+
+    def load_cart
+        @cartitems = Game.find(session[:cart])
+    end
 
     def  set_game
         @game = Game.find(params[:id])

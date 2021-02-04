@@ -24,6 +24,8 @@
 
 <p>This is the games index</p>
 
+<%= debug session[:cart] %>
+
 <% @games.each do |game| %>
 <div class='center-align'>
   <div class="row center-align">
@@ -43,26 +45,38 @@
           <span class="card-title"><%=game.gender + ' ' + game.level + ' ' + game.sport%></span>
           <div class ='col s6'>
             <i class="tiny material-icons">location_on</i><%= game.location %>
-            <div>
+            <div class='card card-content black-text'>
               Details on event
             </div>
           </div>
           <div class ='col s6'>
-            <div class='white-background'>
+            <div class='card card-content black-text'>
                 <div class='calendarCard'>
                     <div class='calendarTop'>
-                        <p class='month'>month</p>
-                        <p class='calendarBottom'>00</p>
+                        <p class='month'><%= Date::MONTHNAMES[game.event_start.month] %></p>
+                        <p class='calendarBottom'><%= game.event_start.day %></p>
                     </div>
-                    <p>day of week</p>
-                    <p>time</p>
+                    <p><%= Date::DAYNAMES[game.event_start.wday] %></p>
+                    <%if game.event_start.hour > 11 %>
+                        <p><%= game.event_start.hour - 11 %>:<%= game.event_start.min %> pm</p>
+                    <% else %>
+                        <p><%= game.event_start.hour %>:<%= game.event_start.min %> pm</p>
+                    <% end %>
                 </div>
             </div>
           </div>
         </div>
-        <div class="card-action">
-          <a href="#">GET TICKETS</a>
-        </div>
+        <% unless @cartitems.include?(game) %>
+            <%= link_to add_to_cart_path(game.id), method: :post do %>
+                <button class="btn-large waves-effect waves-light" type="submit" name="action">get tickets</button>
+            <% end %>
+        <% else %>
+            <%= link_to cart_index_path do %>
+                <button class="btn-large waves-effect waves-light" type="submit" name="action">get tickets</button>
+            <% end %>
+        <% end %>
+        <br />
+        <br />
       </div>
     </div>
   </div>

@@ -4,12 +4,10 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "home#index"
 
-  resources :games, except: [:delete] do
-    member do
-      post :add_to_cart
-      post :remove_from_cart
-    end
-  end
+  resources :games, except: [:delete]
+  post 'games/:id/add_to_cart/', to: 'games#add_to_cart', as: 'add_to_cart'
+  delete 'games/:id/remove_from_cart', to: 'games#remove_from_cart', as: 'remove_from_cart'
+
   resources :tickets, only: [:show, :index]
   resources :users, except: [:delete]
   resources :cart, except: [:delete]

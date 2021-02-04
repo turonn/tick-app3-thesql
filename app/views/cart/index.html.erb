@@ -1,4 +1,24 @@
 <div>This is the cart view</div>
 <%= debug session[:cart]%>
 <%= session[:cart] %>
-<div id='cart-card'></div>
+
+  <ul class="collection with-header">
+  <li class="collection-header center-align"><h4>Your Cart</h4></li>
+    <% unless @cartitems == [] %>
+      <% @cartitems.each do |game| %>
+        <li class="collection-item">
+            <div>
+                <p>
+                    <%= game.gender + ' ' + game.level + ' ' + game.sport %><br/>
+                    <%= game.home_team.name + ' vs ' + game.visiting_team.name %><br/>
+                    <%= game.event_start.strftime('%B %d, %Y') %><br/>
+                    <%= game.event_start.strftime('%l:%M%p') %>
+                </p>            
+                <a href="#!" class="secondary-content"><i class="material-icons">send</i></a>
+            </div>
+        </li>
+      <% end %>
+    <% else %>
+        <li class="collection-item">Your cart is empty.</li>
+    <% end %>
+  </ul>
