@@ -1,12 +1,10 @@
-<div>This is the cart view</div>
-<%= debug session[:cart]%>
-<%= session[:cart] %>
 
-  <ul class="collection with-header">
+<ul class="collection with-header">
   <li class="collection-header center-align"><h4>Your Cart</h4></li>
+
     <% unless @cartitems == [] %>
       <% @cartitems.each do |game| %>
-        <li class="collection-item">
+        <li class="collection-item avatar">
             <div>
                 <p>
                     <%= game.gender + ' ' + game.level + ' ' + game.sport %><br/>
@@ -14,11 +12,36 @@
                     <%= game.event_start.strftime('%B %d, %Y') %><br/>
                     <%= game.event_start.strftime('%l:%M%p') %>
                 </p>            
-                <a href="#!" class="secondary-content"><i class="material-icons">send</i></a>
+                  <div class="secondary-content right">
+                    <p class='font-black'>
+                      tickets <br/>
+                      <input type='select' value='1' /><br/>
+                      <%= number_to_currency(game.price/100.0) + ' ' %><br/>
+                      <%= link_to remove_from_cart_path(game.id), method: :delete do %>
+                        remove<i class="material-icons tiny">delete_forever</i>
+                      <% end %>
+                    </p>
+                  </div>
             </div>
         </li>
+    </ul>
+    <div class='right'>
+        <p>sub total</p>
+        <p>tax?</   p>
+        <p>Credit Card Fee</p>
+        <p>total</p>
+        <button class='btn'>GET TICKETS</button>
+    </div>
       <% end %>
+
     <% else %>
-        <li class="collection-item">Your cart is empty.</li>
+        <li class="collection-item">
+            Your cart is empty.
+            <div class="secondary-content">
+                <%= link_to games_path do %>
+                    <button class="btn-small waves-effect waves-light">go to games</button>
+                <% end %>
+            </div>
+        </li>
     <% end %>
   </ul>
