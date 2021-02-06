@@ -1,3 +1,8 @@
+<%= session[:cart] %>
+<%if @cartitems[0]%>
+<%= link_to 'test 5', adjust_tickets_path(id: @cartitems[0].id, var: '5'), method: :post %>
+<%= link_to 'test 2', adjust_tickets_path(id: @cartitems[0].id, var: '2'), method: :post %>
+<%end%>
 
 <ul class="collection with-header">
   <li class="collection-header center-align"><h4>Your Cart</h4></li>
@@ -13,14 +18,24 @@
                     <%= game.event_start.strftime('%l:%M%p') %>
                 </p>            
                   <div class="secondary-content right">
-                    <p class='font-black'>
-                      tickets <br/>
-                      <input type='select' value='1' /><br/>
-                      <%= number_to_currency(game.price/100.0) + ' ' %><br/>
+                    <label for='ticknum'>number of tickets</label>
+                    <select class='browser-default' id='ticknum' name='tickets'>
+                      <option value='' disabled selected><%=@cart.count(game.id)%></option>
+                      <option value='1'>1</option>
+                      <option value='2'>2</option>
+                      <option value='3'>3</option>
+                      <option value='4'>4</option>
+                      <option value='5'>5</option>
+                      <option value='6'>6</option>
+                      <option value='7'>7</option>
+                      <option value='8'>8</option>
+                    </select>
+                  </div>
+                  <div class="right">
+                      <%= number_to_currency(@cart.count(game.id) * game.price/100.0) + ' ' %><br/>
                       <%= link_to remove_from_cart_path(game.id), method: :delete do %>
                         remove<i class="material-icons tiny">delete_forever</i>
                       <% end %>
-                    </p>
                   </div>
             </div>
         </li>
@@ -30,7 +45,7 @@
         <p>tax?</   p>
         <p>Credit Card Fee</p>
         <p>total</p>
-        <button class='btn'>GET TICKETS</button>
+        <button class='btn'>BUY TICKETS</button>
     </div>
       <% end %>
 

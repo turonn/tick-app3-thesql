@@ -15,9 +15,19 @@ class CartController < ApplicationController
       end
     end
   
+    def adjust_tickets
+      id = params[:id].to_i
+      var = params[:var].to_i
+      session[:cart].delete(id)
+      var.times {session[:cart] << id}
+      redirect_to cart_path
+    end
+
     private
   
     def load_cart
       @cartitems = Game.find(session[:cart])
+      @cart = session[:cart]
     end
+
   end

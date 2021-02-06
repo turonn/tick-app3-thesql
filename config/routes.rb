@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   resources :tickets, only: [:show, :index]
   resources :users, except: [:delete]
   resources :cart, except: [:delete]
+  post 'cart/:id/:var/adjust_tickets/', to: 'cart#adjust_tickets', as: 'adjust_tickets'
 end
