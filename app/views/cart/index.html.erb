@@ -1,7 +1,7 @@
 <%= session[:cart] %>
 <%if @cartitems[0]%>
-<%= link_to 'test 5', adjust_tickets_path(id: @cartitems[0].id, var: '5'), method: :post %>
-<%= link_to 'test 2', adjust_tickets_path(id: @cartitems[0].id, var: '2'), method: :post %>
+<%= link_to 'test 5', adjust_tickets_path(id: @cartitems[0].id, ticket_count: '5'), method: :post %>
+<%= link_to 'test 2', adjust_tickets_path(id: @cartitems[0].id, ticket_count: '2'), method: :post %>
 <%end%>
 
 <ul class="collection with-header">
@@ -19,7 +19,7 @@
                 </p>            
                   <div class="secondary-content right">
                     <label for='ticknum'>number of tickets</label>
-                    <select class='browser-default' id='ticknum' name='tickets'>
+                    <select class='browser-default' id=<%= game.id.to_s + '-tickets'%> name='tickets' onchange='handleTicketChange(<%=game.id%>);'>
                       <option value='' disabled selected><%=@cart.count(game.id)%></option>
                       <option value='1'>1</option>
                       <option value='2'>2</option>
@@ -39,6 +39,7 @@
                   </div>
             </div>
         </li>
+      <% end %>
     </ul>
     <div class='right'>
         <p>sub total</p>
@@ -47,7 +48,6 @@
         <p>total</p>
         <button class='btn'>BUY TICKETS</button>
     </div>
-      <% end %>
 
     <% else %>
         <li class="collection-item">
@@ -60,3 +60,14 @@
         </li>
     <% end %>
   </ul>
+
+  <script>
+    handleTicketChange = (gid) => {
+        let selectBox = document.getElementById(`${gid}-tickets`)
+        let numberOfTickets = selectBox.options[selectBox.selectedIndex].value
+
+        const csrfToken = document.querySelector("[name='csrf-token']").content
+        fetch(`/cart/${gid}/${numberOfTickets}/adjust_tickets.json`, { method: 'POST', headers: { "X-CSRF-Token": csrfToken }})
+        .then(console.log('why no page refresh?'))
+    }
+  </script>
