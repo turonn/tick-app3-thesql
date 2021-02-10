@@ -1,13 +1,15 @@
 <%= session[:cart] %>
+<%= current_user %>
 <%if @cartitems[0]%>
-<%= link_to 'test 5', adjust_tickets_path(id: @cartitems[0].id, ticket_count: '5'), method: :post %>
-<%= link_to 'test 2', adjust_tickets_path(id: @cartitems[0].id, ticket_count: '2'), method: :post %>
+<%= link_to 'test 5', adjust_tickets_path(gid: @cartitems[0].id, ticket_count: '5'), method: :post %>
+<%= link_to 'test 2', adjust_tickets_path(gid: @cartitems[0].id, ticket_count: '2'), method: :post %>
 <%end%>
 
 <ul class="collection with-header">
   <li class="collection-header center-align"><h4>Your Cart</h4></li>
 
     <% unless @cartitems == [] %>
+      <%= form_tag(adjust_tickets_path, id: 'cart-form') do %>
       <% @cartitems.each do |game| %>
         <li class="collection-item avatar">
             <div>
@@ -19,19 +21,19 @@
                 </p>            
                   <div class="secondary-content right">
                     <label for='ticknum'>number of tickets</label>
-                    <select class='browser-default' id=<%= game.id.to_s + '-tickets'%> name='tickets' onchange='handleTicketChange(<%=game.id%>);'>
-                      <option value='' disabled selected><%=@cart.count(game.id)%></option>
-                      <option value='1'>1</option>
-                      <option value='2'>2</option>
-                      <option value='3'>3</option>
-                      <option value='4'>4</option>
-                      <option value='5'>5</option>
-                      <option value='6'>6</option>
-                      <option value='7'>7</option>
-                      <option value='8'>8</option>
+                    <select class='browser-default' id=<%= game.id.to_s + '-tickets'%> name=<%= "tickets[#{game.id}]" %> onchange='handleTicketChange()'>
+                      <% (1..8).each do |i| %>
+                        <option 
+                          value='<%= i %>'
+                          <%= 'selected' if @cart.count(game.id) == i %>
+                          >
+                            <%= i %>
+                        </option>
+                      <% end %>
                     </select>
                   </div>
                   <div class="right">
+                    <% @subtotal += @cart.count(game.id) * game.price %>
                       <%= number_to_currency(@cart.count(game.id) * game.price/100.0) + ' ' %><br/>
                       <%= link_to remove_from_cart_path(game.id), method: :delete do %>
                         remove<i class="material-icons tiny">delete_forever</i>
@@ -40,13 +42,21 @@
             </div>
         </li>
       <% end %>
+      <% end %>
     </ul>
     <div class='right'>
-        <p>sub total</p>
-        <p>tax?</   p>
-        <p>Credit Card Fee</p>
-        <p>total</p>
-        <button class='btn'>BUY TICKETS</button>
+        <% @tax = (@subtotal * 0.075).round() %>
+        <% @creditCardFee = ((@subtotal + @tax) * 0.022 + 30).round() %>
+        <% @total = @subtotal + @tax + @creditCardFee %>
+
+        <p>sub total <span id='subtotal' class='right'><%=number_to_currency(@subtotal/100)%></span></p>
+        <p>tax <span id='tax' class='right'><%=number_to_currency(@tax/100.0)%></span></p>
+        <p>Credit Card Fee <span id='creditCardFee' class='right'><%=number_to_currency(@creditCardFee/100.0)%></span></p>
+        <p>total <span id='total' class='right'><%=number_to_currency(@total/100.0)%></span></p>
+
+        <%= link_to cart_checkout_path, method: :post do %>
+            <button class='btn'>BUY TICKETS</button>
+        <% end %>
     </div>
 
     <% else %>
@@ -61,13 +71,25 @@
     <% end %>
   </ul>
 
-  <script>
-    handleTicketChange = (gid) => {
-        let selectBox = document.getElementById(`${gid}-tickets`)
-        let numberOfTickets = selectBox.options[selectBox.selectedIndex].value
 
-        const csrfToken = document.querySelector("[name='csrf-token']").content
-        fetch(`/cart/${gid}/${numberOfTickets}/adjust_tickets.json`, { method: 'POST', headers: { "X-CSRF-Token": csrfToken }})
-        .then(console.log('why no page refresh?'))
+  <script>
+    handleTicketChange = () => {
+      console.log("hello")
+      document.getElementById('cart-form').submit()
+        // let selectBox = document.getElementById(`${gid}-tickets`)
+        // let numberOfTickets = selectBox.options[selectBox.selectedIndex].value
+
+        // const csrfToken = document.querySelector("[name='csrf-token']").content
+        // fetch('/cart/adjust_tickets.json', { 
+        //     method: 'POST', 
+        //     headers: { 
+        //         "X-CSRF-Token": csrfToken, 
+        //         'Content-Type': 'application/json' 
+        //         }, 
+        //     body: JSON.stringify({ 
+        //         'ticket_count': numberOfTickets, 
+        //         'gid': gid 
+        //         })})
+        // .then(window.location.reload())
     }
   </script>

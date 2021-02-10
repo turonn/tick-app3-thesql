@@ -16,15 +16,32 @@ class CartController < ApplicationController
     end
   
     def adjust_tickets
-      id = params[:id].to_i
-      ticket_count = params[:ticket_count].to_i
-      session[:cart].delete(id)
-      ticket_count.times {session[:cart] << id}
-      redirect_to cart_path
+      gid = params[:tickets].each do |k, v|
+        gid = k.to_i
+        ticket_count = v.to_i
+        session[:cart].delete(gid)
+        ticket_count.times {session[:cart] << gid}
+      end
+      redirect_to cart_path(2)
       #respond_to do |format|
       #  format.json { render :index }
-      #  format.html { render :index }
       #end
+    end
+
+    def checkout
+      byebug
+      session[:cart].each do |gid|
+        Ticket.create({
+          game: Game.find(gid),
+          user: current_user
+        })
+        #ticket = Ticket.new
+        #ticket.user = current_user
+        #ticket.game = Game.find(tik)
+        #ticket.save
+      end
+      session[:cart] = []
+      redirect_to games_path
     end
 
     private
@@ -32,6 +49,10 @@ class CartController < ApplicationController
     def load_cart
       @cartitems = Game.find(session[:cart]).sort
       @cart = session[:cart]
+      @subtotal = 0
+      @tax = 0
+      @creditCardFee = 0
+      @total = 0
     end
 
   end
