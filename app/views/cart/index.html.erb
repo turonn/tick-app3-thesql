@@ -1,9 +1,3 @@
-<%= session[:cart] %>
-<%= current_user %>
-<%if @cartitems[0]%>
-<%= link_to 'test 5', adjust_tickets_path(gid: @cartitems[0].id, ticket_count: '5'), method: :post %>
-<%= link_to 'test 2', adjust_tickets_path(gid: @cartitems[0].id, ticket_count: '2'), method: :post %>
-<%end%>
 
 <ul class="collection with-header">
   <li class="collection-header center-align"><h4>Your Cart</h4></li>
@@ -54,8 +48,14 @@
         <p>Credit Card Fee <span id='creditCardFee' class='right'><%=number_to_currency(@creditCardFee/100.0)%></span></p>
         <p>total <span id='total' class='right'><%=number_to_currency(@total/100.0)%></span></p>
 
-        <%= link_to cart_checkout_path, method: :post do %>
-            <button class='btn'>BUY TICKETS</button>
+        <% if user_signed_in? %>
+          <%= link_to cart_checkout_path, method: :post do %>
+              <button class='btn'>BUY TICKETS</button>
+          <% end %>
+        <% else %>
+          <%= link_to new_user_session_path do %>
+              <button class='btn'>BUY TICKETS</button>
+          <% end %>
         <% end %>
     </div>
 

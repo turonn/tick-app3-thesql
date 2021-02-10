@@ -29,16 +29,11 @@ class CartController < ApplicationController
     end
 
     def checkout
-      byebug
       session[:cart].each do |gid|
         Ticket.create({
           game: Game.find(gid),
           user: current_user
         })
-        #ticket = Ticket.new
-        #ticket.user = current_user
-        #ticket.game = Game.find(tik)
-        #ticket.save
       end
       session[:cart] = []
       redirect_to games_path
