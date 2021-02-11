@@ -1,10 +1,4 @@
-<h1>My Account</h1>
-
-<h4>User info</h4>
-<p><strong>Name</strong></p>
-<p><%= current_user.first_name + ' ' + current_user.last_name %></p>
-<p><strong>email</strong></p>
-<p><%= current_user.email %></p>
+<h1>My Tickets</h1>
 
 <h4>Tickets</h4>
 <%# need to add logic here to display current_user.tickets only if "FALSE" values for used IN THE FUTURE %>
@@ -32,7 +26,3 @@
         <li>You have no upcoming tickets.</li>
     </ul>
 <% end %>
-
-<br/><br/>
-<%= button_to 'Sign Out', destroy_user_session_path,	method: :delete %>
-

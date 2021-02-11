@@ -35,8 +35,8 @@ class CartController < ApplicationController
           user: current_user
         })
       end
+      redirect_to my_account_index_path, notice: "Successfully purchased #{session[:cart].count} #{'ticket'.pluralize(session[:cart].count)}!"
       session[:cart] = []
-      redirect_to games_path
     end
 
     private
