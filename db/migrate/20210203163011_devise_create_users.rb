@@ -6,6 +6,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       #Bonus information I want to know
       t.string :first_name
       t.string :last_name
+      t.belongs_to :home_team, null: false, foreign_key: { to_table: :schools }
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""

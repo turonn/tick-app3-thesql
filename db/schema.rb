@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 2021_02_03_163330) do
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
+    t.bigint "home_team_id", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -66,9 +67,11 @@ ActiveRecord::Schema.define(version: 2021_02_03_163330) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["home_team_id"], name: "index_users_on_home_team_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "games", "schools", column: "home_team_id"
   add_foreign_key "games", "schools", column: "visiting_team_id"
+  add_foreign_key "users", "schools", column: "home_team_id"
 end

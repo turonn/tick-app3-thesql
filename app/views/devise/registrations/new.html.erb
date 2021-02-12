@@ -13,6 +13,11 @@
     <%= f.text_field :last_name, autocomplete: "family-name"%>
   </div>
 
+  <div class="field"> 
+    <%= f.label :My_Home_Team %><br />
+    <%= f.collection_select :home_team_id, School.order(:name), :id, :name, {:selected => "1"}, {:class=>'browser-default'} %>
+  </div>
+
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autocomplete: "email" %>

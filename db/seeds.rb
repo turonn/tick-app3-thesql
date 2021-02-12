@@ -78,6 +78,7 @@ users = User.create([
     {
         first_name: "Greatest",
         last_name: "Ever",
+        home_team_id: 1,
         email: "my@email.com",
         password: "password1",
         created_at: DateTime.new(2021,1,7),
@@ -89,6 +90,7 @@ users = User.create([
     {
         first_name: "Jeorge",
         last_name: "Simpilton",
+        home_team_id: 1,
         email: "jeo@email.com",
         password: "pas3wrid",
         created_at: DateTime.new(2021,1,7),
