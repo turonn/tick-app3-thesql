@@ -26,9 +26,9 @@
     <%= render "layouts/navbar" %>
     <div class="container">
       <% if notice %>
-        <p class="notice" style="backgoround-color: 'yellow';"><%= notice %></p>
+        <p class="notice teal lighten-5" ><%= notice %></p>
       <% elsif alert %>
-        <p class="alert"><%= alert %></p>
+        <p class="alert teal lighten-5" ><%= alert %></p>
       <% end %>
       <%= yield %>
     </div>
