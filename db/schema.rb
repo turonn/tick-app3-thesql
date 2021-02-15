@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2021_02_03_163330) do
     t.string "first_name"
     t.string "last_name"
     t.bigint "home_team_id", null: false
+    t.boolean "admin", default: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
