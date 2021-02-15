@@ -8,27 +8,17 @@
 <p><strong>lifetime tickets</strong></p>
 <p><%= current_user.tickets.count %></p>
 
-<h4>Tickets</h4>
-<% unless @futureUnusedTickets == [] %> 
-    <%= @futureUnusedTickets.each do |ticket| %>
-        <div class='card'>
-            <p><%= ticket.game.sport + ' game' %></p>
-            <p><%= ticket.game.home_team.name + ' vs. ' + ticket.game.visiting_team.name %></p>
-            <p><%= 'on ' + ticket.game.event_start.to_s %></p>
-            <div>
-                <img 
-                    src='<%= "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=#{ticket.ticket_code}" %>' 
-                    alt='<%= ticket.ticket_code %>' 
-                >
-            </div>
-            <p><%= ticket.ticket_code %></p>
-            <p><%= 'used? '+ ticket.used.to_s %></p>
-        </div>
-    <% end %>
-<% else %>
-    <ul>
-        <li>You have no upcoming tickets.</li>
-    </ul>
+<hr>
+<%= link_to edit_user_registration_path do %>
+    <button class="waves-effect waves-light btn">Update Information</button>
+<% end %>
+
+<%= link_to my_tickets_path do %>
+    <button class="waves-effect waves-light btn">My Tickets</button>
+<% end %>
+
+<% link_to my_account_index_path do %>
+    <button class="waves-effect waves-light btn">Purchase History</button>
 <% end %>
 
 <br/><br/>

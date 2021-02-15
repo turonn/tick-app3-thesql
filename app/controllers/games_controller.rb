@@ -16,7 +16,7 @@ class GamesController < ApplicationController
         @futureGames = []
          #Need to add autherization to POST...eventually
         Game.all.joins(:home_team, :visiting_team).each do |game|
-            if game.event_start > (Date.current + 1)
+            if game.event_start > (Date.current + 1) # && game.tickets.count < game.max_capacity
                 @futureGames << game
             end
         end

@@ -9,12 +9,11 @@ Rails.application.routes.draw do
   delete 'games/:id/remove_from_cart', to: 'games#remove_from_cart', as: 'remove_from_cart'
 
   resources :tickets, only: [:show, :index]
-
-  #resources :users, except: [:delete]
   
   resources :cart, except: [:delete]
   post 'cart/adjust_tickets', to: 'cart#adjust_tickets', as: 'adjust_tickets'
   post 'cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
 
   resources :my_account, except: [:delete]
+  get 'my_account/tickets', to: 'my_account#tickets', as: 'my_tickets'
 end

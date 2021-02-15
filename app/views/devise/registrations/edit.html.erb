@@ -1,7 +1,22 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2>Update Information</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name, autofocus: true, autocomplete: "given-name"%>
+  </div>
+
+  <div class="field"> 
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name, autocomplete: "family-name"%>
+  </div>
+
+  <div class="field"> 
+    <%= f.label :My_Home_Team %><br />
+    <%= f.collection_select :home_team_id, School.order(:name), :id, :name, {:selected => "1"}, {:class=>'browser-default'} %>
+  </div>
 
   <div class="field">
     <%= f.label :email %><br />

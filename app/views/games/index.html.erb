@@ -40,12 +40,14 @@
             </div>
           </div>
         </div>
-        <% unless @cartitems.include?(game) %>
-            <%= link_to add_to_cart_path(game.id), method: :post do %>
+        <% if game.tickets.count >= game.max_capacity %>
+          <button class="btn-large waves-effect waves-light disabled" type="submit" name="action">sold out</button>
+        <% elsif @cartitems.include?(game) %>
+            <%= link_to cart_index_path do %>
                 <button class="btn-large waves-effect waves-light" type="submit" name="action">get tickets</button>
             <% end %>
         <% else %>
-            <%= link_to cart_index_path do %>
+            <%= link_to add_to_cart_path(game.id), method: :post do %>
                 <button class="btn-large waves-effect waves-light" type="submit" name="action">get tickets</button>
             <% end %>
         <% end %>

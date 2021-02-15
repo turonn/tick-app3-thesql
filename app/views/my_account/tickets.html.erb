@@ -1,25 +1,21 @@
 <h1>My Tickets</h1>
 
 <h4>Tickets</h4>
-<%# need to add logic here to display current_user.tickets only if "FALSE" values for used IN THE FUTURE %>
-<%# perhaps createing a new array of "valid_tickets" and rendering this logic unless @valid_tickets == [] %>
-<% unless current_user.tickets.count == 0 %> 
-    <%= current_user.tickets.each do |ticket| %>
-        <% unless ticket.used %>
-            <ul>
-                <li><%= ticket.game.sport + ' game' %></li>
-                <li><%= ticket.game.home_team.name + ' vs. ' + ticket.game.visiting_team.name %></li>
-                <li><%= 'on ' + ticket.game.event_start.to_s %></li>
-                <li>
-                    <img 
-                        src='<%= "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=#{ticket.ticket_code}" %>' 
-                        alt='<%= ticket.ticket_code %>' 
-                    >
-                </li>
-                <li><%= ticket.ticket_code %></li>
-                <li><%= 'used? '+ ticket.used.to_s %></li>
-            </ul>
-        <% end %>
+<% unless @futureUnusedTickets == [] %> 
+    <%= @futureUnusedTickets.each do |ticket| %>
+        <div class='card'>
+            <p><%= ticket.game.sport + ' game' %></p>
+            <p><%= ticket.game.home_team.name + ' vs. ' + ticket.game.visiting_team.name %></p>
+            <p><%= 'on ' + ticket.game.event_start.to_s %></p>
+            <div>
+                <img 
+                    src='<%= "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=#{ticket.ticket_code}" %>' 
+                    alt='<%= ticket.ticket_code %>' 
+                >
+            </div>
+            <p><%= ticket.ticket_code %></p>
+            <p><%= 'used? '+ ticket.used.to_s %></p>
+        </div>
     <% end %>
 <% else %>
     <ul>
