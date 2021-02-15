@@ -1,11 +1,6 @@
-<style>
-.cardTitleStyle{
-    font-size: 4em;
-}
-</style>
 <h2 class='center-align'>Upcoming Games</h2>
-
-<% @games.each do |game| %>
+<% unless @futureGames == [] %>
+<% @futureGames.each do |game| %>
 <div class='center-align'>
   <div class="row center-align">
     <div class="col s12 m8 offset-m2">
@@ -61,6 +56,6 @@
   </div>
 </div>
 <% end %>
-    </ul>
-
- </ul>
+<% else %>
+  <p>No upcoming games.</p>
+<% end %>

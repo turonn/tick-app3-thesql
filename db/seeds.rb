@@ -46,7 +46,7 @@ games = Game.create([
         visiting_team_id: 2,
         max_capacity: "1000",
         location: "Paint Valley High School",
-        event_start: DateTime.new(2020, 9, 1, 19, 30),
+        event_start: DateTime.new(2021, 9, 1, 19, 30),
         price: 500
     },
 
@@ -58,7 +58,7 @@ games = Game.create([
         visiting_team_id: 3,
         max_capacity: "1000",
         location: "Paint Valley High School",
-        event_start: DateTime.new(2020, 9, 8, 15, 15),
+        event_start: DateTime.new(2021, 9, 8, 15, 15),
         price: 500
     },
     {
@@ -69,8 +69,19 @@ games = Game.create([
         visiting_team_id: 4,
         max_capacity: "270",
         location: "Paint Valley Middle School",
-        event_start: DateTime.new(2020, 9, 5, 8, 45),
+        event_start: DateTime.new(2021, 9, 5, 8, 45),
         price: 700
+    },
+    {
+        sport: "Baseball",
+        gender: "Boys",
+        level: "Varsity",
+        home_team_id: 1,
+        visiting_team_id: 2,
+        max_capacity: "500",
+        location: "Paint Valley High School",
+        event_start: DateTime.new(2020, 4, 5, 5, 30),
+        price: 500
     }
 ])
 

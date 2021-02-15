@@ -13,7 +13,13 @@ class GamesController < ApplicationController
     end
 
     def index
-        @games = Game.all.joins(:home_team, :visiting_team) #Need to add autherization to POST...eventually
+        @futureGames = []
+         #Need to add autherization to POST...eventually
+        Game.all.joins(:home_team, :visiting_team).each do |game|
+            if game.event_start > (Date.current + 1)
+                @futureGames << game
+            end
+        end
         respond_to do |format|
             format.html { render :index }
             format.json { render json: @games, include: [ :home_team, :visiting_team ], status: 200}
