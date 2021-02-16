@@ -5,6 +5,8 @@
 <p><%= current_user.first_name + ' ' + current_user.last_name %></p>
 <p><strong>email</strong></p>
 <p><%= current_user.email %></p>
+<p><strong>Home Team</strong></p>
+<p><%= current_user.home_team.name %></p>
 <p><strong>lifetime tickets</strong></p>
 <p><%= current_user.tickets.count %></p>
 
@@ -20,6 +22,8 @@
 <% link_to my_account_index_path do %>
     <button class="waves-effect waves-light btn">Purchase History</button>
 <% end %>
+
+<%= button_to "Cancel my account", registration_path(current_user), data: { confirm: "Are you sure?" }, method: :delete %>
 
 <br/><br/>
 <%= button_to 'Sign Out', destroy_user_session_path,	method: :delete %>

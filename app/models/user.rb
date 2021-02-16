@@ -5,5 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable
 
   has_many :tickets
-  has_one :school
+  belongs_to :home_team, class_name: 'School', foreign_key: :home_team_id
 end

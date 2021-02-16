@@ -14,7 +14,7 @@
   </div>
 
   <div class="field"> 
-    <%= f.label :My_Home_Team %><br />
+    <%= f.label :home_team_id %><br />
     <%= f.collection_select :home_team_id, School.order(:name), :id, :name, {:selected => "1"}, {:class=>'browser-default'} %>
   </div>
 
