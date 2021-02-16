@@ -42,7 +42,7 @@ class CartController < ApplicationController
     private
   
     def load_cart
-      @cartitems = Game.find(session[:cart]).sort
+      @cartitems = Game.find(session[:cart]).order(:event_start)
       @cart = session[:cart]
       @subtotal = 0
       @tax = 0

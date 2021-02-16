@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
     before_action :set_game, only: [:show, :edit, :update, :destroy]
     before_action :load_cart
+    before_action :set_future_games
 
     def show
     end
@@ -13,13 +14,6 @@ class GamesController < ApplicationController
     end
 
     def index
-        @futureGames = []
-         #Need to add autherization to POST...eventually
-        Game.all.joins(:home_team, :visiting_team).each do |game|
-            if game.event_start > (Date.current + 1) # && game.tickets.count < game.max_capacity
-                @futureGames << game
-            end
-        end
         respond_to do |format|
             format.html { render :index }
             format.json { render json: @games, include: [ :home_team, :visiting_team ], status: 200}
@@ -82,7 +76,13 @@ class GamesController < ApplicationController
         @cartitems = Game.find(session[:cart])
     end
 
-    def  set_game
+    def set_future_games
+        @futureGames = []
+        @futureGames = Game.where("event_start > ?", (Date.current - 1)).order(:event_start)
+         #Need to add autherization to POST...eventually
+    end
+
+    def  set_games
         @game = Game.find(params[:id])
     end
 
