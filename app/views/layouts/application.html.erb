@@ -13,14 +13,22 @@
   </head>
 
   <body class="has-navbar-fixed-top">
+
     <%= render "layouts/navbar" %>
-    <div class="">
+
+    <div class="container is-max-desktop">
+
       <% if notice %>
-        <p class="notice" ><%= notice %></p>
+        <p class="notice is-warning" ><%= notice %></p>
       <% elsif alert %>
-        <p class="alert" ><%= alert %></p>
+        <p class="alert is-warning" ><%= alert %></p>
       <% end %>
+
       <%= yield %>
+      
     </div>
+
+    <%= render "layouts/footer" %>
+
   </body>
 </html>

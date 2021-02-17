@@ -1,63 +1,76 @@
-<h2 class='center-align'>Upcoming Games</h2>
-<% unless @futureGames == [] %>
-<% @futureGames.each do |game| %>
-<div class='center-align'>
+<h2 class="center-align">Upcoming Games</h2>
+<% unless @futureGames == [] %> <% @futureGames.each do |game| %>
+<div class="columns">
   <div class="row center-align">
-    <div class="col s12 m8 offset-m2">
-      <div class="card blue-grey darken-1">
-        <div class="card-content white-text">
-          <div class='col s6'>
-            <%= image_tag(game.home_team.logo_location, height: '100px', alt: game.home_team.name + ' logo') -%>
-            <p><%=game.home_team.name%></p>
-            <p><%=game.home_team.mascot%></p>
-          </div>
-          <div class='col s6'>
-            <%= image_tag(game.visiting_team.logo_location, height: '100px', alt: game.visiting_team.name + ' logo') -%>
-            <p><%=game.visiting_team.name%></p>
-            <p><%=game.visiting_team.mascot%></p>      
-          </div>
-          <span class="card-title cardTitleStyle"><%=game.gender + ' ' + game.level + ' ' + game.sport%></span>
-          <div class ='col s6'>
-            <i class="tiny material-icons">location_on</i><%= game.location %>
-            <div class='card card-content black-text'>
-              Details on event
-            </div>
-          </div>
-          <div class ='col s6'>
-            <div class='card card-content black-text'>
-                <div class='calendarCard'>
-                    <div class='calendarTop'>
-                        <p class='month'><%= Date::MONTHNAMES[game.event_start.month] %></p>
-                        <p class='calendarBottom'><%= game.event_start.day %></p>
-                    </div>
-                    <p><%= Date::DAYNAMES[game.event_start.wday] %></p>
-                    <%if game.event_start.hour > 11 %>
-                        <p><%= game.event_start.hour - 11 %>:<%= game.event_start.min %> pm</p>
-                    <% else %>
-                        <p><%= game.event_start.hour %>:<%= game.event_start.min %> pm</p>
-                    <% end %>
-                </div>
+    <div class="card blue-grey darken-1">
+      <div class="card-content white-text">
+        <div class="col s6">
+          <%= image_tag(game.home_team.logo_location, height: '100px', alt:game.home_team.name + ' logo') -%>
+          <p><%=game.home_team.name%></p>
+          <p><%=game.home_team.mascot%></p>
+        </div>
+        <div class="col s6">
+          <%= image_tag(game.visiting_team.logo_location, height: '100px', alt:game.visiting_team.name + ' logo') -%>
+          <p><%=game.visiting_team.name%></p>
+          <p><%=game.visiting_team.mascot%></p>
+        </div>
+        <span class="card-title cardTitleStyle"><%=game.gender + ' ' + game.level + ' ' + game.sport%></span>
+        <div class="col s6">
+          <i class="tiny material-icons">location_on</i><%= game.location %>
+          <div class="card card-content black-text">Details on event</div>
+        </div>
+        <div class="col s6">
+          <div class="card card-content black-text">
+            <div class="calendarCard">
+              <div class="calendarTop">
+                <p class="month">
+                  <%= Date::MONTHNAMES[game.event_start.month] %>
+                </p>
+                <p class="calendarBottom"><%= game.event_start.day %></p>
+              </div>
+              <p><%= Date::DAYNAMES[game.event_start.wday] %></p>
+              <%if game.event_start.hour > 11 %>
+              <p>
+                <%= game.event_start.hour - 11 %>:<%= game.event_start.min %> pm
+              </p>
+              <% else %>
+              <p><%= game.event_start.hour %>:<%= game.event_start.min %> pm</p>
+              <% end %>
             </div>
           </div>
         </div>
-        <% if game.tickets.count >= game.max_capacity %>
-          <button class="btn-large waves-effect waves-light disabled" type="submit" name="action">sold out</button>
-        <% elsif @cartitems.include?(game) %>
-            <%= link_to cart_index_path do %>
-                <button class="btn-large waves-effect waves-light" type="submit" name="action">get tickets</button>
-            <% end %>
-        <% else %>
-            <%= link_to add_to_cart_path(game.id), method: :post do %>
-                <button class="btn-large waves-effect waves-light" type="submit" name="action">get tickets</button>
-            <% end %>
-        <% end %>
-        <br />
-        <br />
       </div>
+      <% if game.tickets.count >= game.max_capacity %>
+      <button
+        class="btn-large waves-effect waves-light disabled"
+        type="submit"
+        name="action"
+      >
+        sold out
+      </button>
+      <% elsif @cartitems.include?(game) %> <%= link_to cart_index_path do %>
+      <button
+        class="btn-large waves-effect waves-light"
+        type="submit"
+        name="action"
+      >
+        get tickets
+      </button>
+      <% end %> <% else %> <%= link_to add_to_cart_path(game.id), method: :post
+      do %>
+      <button
+        class="btn-large waves-effect waves-light"
+        type="submit"
+        name="action"
+      >
+        get tickets
+      </button>
+      <% end %> <% end %>
+      <br />
+      <br />
     </div>
   </div>
 </div>
-<% end %>
-<% else %>
-  <p>No upcoming games.</p>
+<% end %> <% else %>
+<p>No upcoming games.</p>
 <% end %>
