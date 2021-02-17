@@ -49,6 +49,7 @@ class CartController < ApplicationController
 
         elsif (game.tickets.count + session[:cart].count(gid)) > game.max_capacity
           session[:cart].delete(gid) 
+          remaining_tickets.times(session[:cart] << gid)
           redirect_to cart_index_path, notice: 
             "Could not complete purchase. #{game.gender} #{game.sport} game vs. #{game.visiting_team.name} 
             on #{game.event_start.month} #{game.event_start.day} does not have #{session[:cart].count(gid)} 

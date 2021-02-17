@@ -16,7 +16,7 @@
                   <div class="secondary-content right">
                     <label for='ticknum'>number of tickets</label>
                     <select class='browser-default' id=<%= game.id.to_s + '-tickets'%> name=<%= "tickets[#{game.id}]" %> onchange='handleTicketChange()'>
-                      <% (1..8).each do |i| %>
+                      <% (1..purchaseable_tickets(game)).each do |i| %>
                         <option 
                           value='<%= i %>'
                           <%= 'selected' if @cart.count(game.id) == i %>
