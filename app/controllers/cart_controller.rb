@@ -58,7 +58,7 @@ class CartController < ApplicationController
 
       end
 
-      session[:cart].each do |gid|io
+      session[:cart].each do |gid|
         Ticket.create({
           game: Game.find(gid),
           user: current_user
@@ -71,7 +71,7 @@ class CartController < ApplicationController
     private
   
     def load_cart
-      @cartitems = Game.find(session[:cart]).order(:event_start)
+      @cartitems = Game.find(session[:cart]).sort_by(&:event_start)
       @cart = session[:cart]
       @subtotal = 0
       @tax = 0

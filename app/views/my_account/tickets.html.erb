@@ -2,7 +2,7 @@
 
 <h4>Tickets</h4>
 <% unless @futureUnusedTickets == [] %> 
-    <%= @futureUnusedTickets.each do |ticket| %>
+    <% @futureUnusedTickets.each do |ticket| %>
         <div class='card'>
             <p><%= ticket.game.sport + ' game' %></p>
             <p><%= ticket.game.home_team.name + ' vs. ' + ticket.game.visiting_team.name %></p>
