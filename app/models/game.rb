@@ -10,6 +10,8 @@
 #  max_capacity     :integer
 #  price            :integer
 #  sport            :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #  home_team_id     :bigint           not null
 #  visiting_team_id :bigint           not null
 #

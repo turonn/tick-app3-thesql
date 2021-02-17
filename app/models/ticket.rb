@@ -5,6 +5,8 @@
 #  id          :bigint           not null, primary key
 #  ticket_code :string
 #  used        :boolean
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #  game_id     :bigint
 #  user_id     :bigint
 #

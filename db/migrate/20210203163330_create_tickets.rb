@@ -5,6 +5,7 @@ class CreateTickets < ActiveRecord::Migration[6.0]
       t.belongs_to :user
       t.boolean :used
       t.string :ticket_code
+      t.timestamps
     end
   end
 end

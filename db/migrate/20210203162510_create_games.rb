@@ -10,6 +10,7 @@ class CreateGames < ActiveRecord::Migration[6.0]
     t.integer :max_capacity
     t.datetime :event_start
     t.integer :price
+    t.timestamps
     end
   end
 end

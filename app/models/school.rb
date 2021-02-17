@@ -12,6 +12,8 @@
 #  phone         :string
 #  state         :string
 #  zip           :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 class School < ApplicationRecord
     has_many :home_games, class_name: 'Game', foreign_key: :home_team_id

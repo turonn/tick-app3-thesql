@@ -10,6 +10,7 @@ class CreateSchools < ActiveRecord::Migration[6.0]
       t.string :zip
       t.string :phone
       t.string :logo_location
+      t.timestamps
     end
   end
 end

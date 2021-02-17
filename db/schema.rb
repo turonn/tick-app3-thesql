@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(version: 2021_02_03_163330) do
     t.integer "max_capacity"
     t.datetime "event_start"
     t.integer "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["home_team_id"], name: "index_games_on_home_team_id"
     t.index ["visiting_team_id"], name: "index_games_on_visiting_team_id"
   end
@@ -39,6 +41,8 @@ ActiveRecord::Schema.define(version: 2021_02_03_163330) do
     t.string "zip"
     t.string "phone"
     t.string "logo_location"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "tickets", force: :cascade do |t|
@@ -46,6 +50,8 @@ ActiveRecord::Schema.define(version: 2021_02_03_163330) do
     t.bigint "user_id"
     t.boolean "used"
     t.string "ticket_code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["game_id"], name: "index_tickets_on_game_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
