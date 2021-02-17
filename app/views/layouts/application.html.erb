@@ -12,13 +12,13 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="has-navbar-fixed-top">
     <%= render "layouts/navbar" %>
-    <div class="container">
+    <div class="">
       <% if notice %>
-        <p class="notice teal lighten-5" ><%= notice %></p>
+        <p class="notice" ><%= notice %></p>
       <% elsif alert %>
-        <p class="alert teal lighten-5" ><%= alert %></p>
+        <p class="alert" ><%= alert %></p>
       <% end %>
       <%= yield %>
     </div>
