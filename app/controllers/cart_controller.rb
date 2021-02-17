@@ -36,14 +36,14 @@ class CartController < ApplicationController
         session[:cart].delete(gid)
         redirect_to cart_index_path notice:
           "Could not complete purchase. #{game.gender} #{game.sport} game vs. #{game.visiting_team.name}
-            on #{game.event_start.month} #{game.event_start.day} has already happened."
+            on #{Date::MONTHNAMES[game.event_start.month]} #{game.event_start.day} has already happened."
         return
 
       elsif game.tickets.count >= game.max_capacity
         session[:cart].delete(gid)
         redirect_to cart_index_path, notice:
           "Could not complete purchase. #{game.gender} #{game.sport} game vs. #{game.visiting_team.name}
-            on #{game.event_start.month} #{game.event_start.day} is sold out."
+            on #{Date::MONTHNAMES[game.event_start.month]} #{game.event_start.day} is sold out."
         return
 
       elsif (game.tickets.count + session[:cart].count(gid)) > game.max_capacity
@@ -51,7 +51,7 @@ class CartController < ApplicationController
         remaining_tickets.times(session[:cart] << gid)
         redirect_to cart_index_path, notice:
           "Could not complete purchase. #{game.gender} #{game.sport} game vs. #{game.visiting_team.name}
-            on #{game.event_start.month} #{game.event_start.day} does not have #{session[:cart].count(gid)}
+            on #{Date::MONTHNAMES[game.event_start.month]} #{game.event_start.day} does not have #{session[:cart].count(gid)}
             #{'ticket'.pluralize(session[:cart].count(gid))} left."
         return
       end
