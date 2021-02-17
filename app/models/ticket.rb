@@ -16,13 +16,13 @@
 #  index_tickets_on_user_id  (user_id)
 #
 class Ticket < ApplicationRecord
-    belongs_to :game
-    belongs_to :user
+  belongs_to :game
+  belongs_to :user
 
-    before_create :ticket_generator
+  before_create :ticket_generator
 
-    def ticket_generator
-        self.ticket_code = SecureRandom.uuid
-        self.used = false
-    end
+  def ticket_generator
+    self.ticket_code = SecureRandom.uuid
+    self.used = false
+  end
 end

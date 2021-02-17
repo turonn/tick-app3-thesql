@@ -1,13 +1,11 @@
 class TicketsController < ApplicationController
-    before_action :set_ticket, only: [:show]
+  before_action :set_ticket, only: [:show]
 
-    def show
-    end
+  def show; end
 
-    private
+  private
 
-    def  set_ticket
-        @ticket = Ticket.find(params[:id])
-    end
-
+  def set_ticket
+    @ticket = Ticket.find(params[:id])
+  end
 end
