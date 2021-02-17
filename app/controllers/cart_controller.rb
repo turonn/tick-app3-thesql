@@ -30,13 +30,42 @@ class CartController < ApplicationController
 
     def checkout
       session[:cart].each do |gid|
+
+        game = Game.find(gid)
+
+        if (game.event_start.midnight < Date.current.midnight)
+          session[:cart].delete(gid)
+          redirect_to cart_index_path notice: 
+            "Could not complete purchase. #{game.gender} #{game.sport} game vs. #{game.visiting_team.name} 
+            on #{game.event_start.month} #{game.event_start.day} has already happened."
+          return
+        
+        elsif game.tickets.count >= game.max_capacity
+          session[:cart].delete(gid)
+          redirect_to cart_index_path, notice: 
+            "Could not complete purchase. #{game.gender} #{game.sport} game vs. #{game.visiting_team.name} 
+            on #{game.event_start.month} #{game.event_start.day} is sold out."
+          return
+
+        elsif (game.tickets.count + session[:cart].count(gid)) > game.max_capacity
+          session[:cart].delete(gid) 
+          redirect_to cart_index_path, notice: 
+            "Could not complete purchase. #{game.gender} #{game.sport} game vs. #{game.visiting_team.name} 
+            on #{game.event_start.month} #{game.event_start.day} does not have #{session[:cart].count(gid)} 
+            #{'ticket'.pluralize(session[:cart].count(gid))} left."
+          return
+        end
+
+      end
+
+      session[:cart].each do |gid|io
         Ticket.create({
           game: Game.find(gid),
           user: current_user
-        })
-      end
-      redirect_to my_account_index_path, notice: "Successfully purchased #{session[:cart].count} #{'ticket'.pluralize(session[:cart].count)}!"
+          })
+        end
       session[:cart] = []
+      redirect_to my_account_index_path, notice: "Successfully purchased #{session[:cart].count} #{'ticket'.pluralize(session[:cart].count)}!"
     end
 
     private
