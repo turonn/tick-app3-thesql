@@ -1,4 +1,128 @@
+<h1 class="text-centered">Your Cart</h1>
 
+<div class="table-container">
+  <table class="table is-fullwidth is-striped">
+    <thead>
+      <tr>
+        <th>Teams</th>
+        <th>Game</th>
+        <th>Date</th>
+        <th>Price</th>
+        <th>Tickets</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% unless @cartitems == [] %>
+        <%= form_tag(adjust_tickets_path, id: 'cart-form') do %>
+          <% @cartitems.each do |game| %>
+            <tr>
+              <td>
+                <span><%= game.home_team.name%><strong> (H)</strong></span><br/>
+                <%= game.visiting_team.name %>
+              </td>
+              <td>
+                <%= game.gender + ' ' + game.level + ' ' + game.sport %>
+              </td>
+              <td>
+                <%= game.event_start.strftime('%B %d, %Y') %><br/>
+                <%= game.event_start.strftime('%l:%M%p') %>
+              </td>
+              <td>
+                <% @subtotal += @cart.count(game.id) * game.price %>
+                <span><%= number_to_currency(game.price/100.0) %>/ea</span>
+              </td>
+              <td>
+                <select class='browser-default' id=<%= game.id.to_s + '-tickets'%> name=<%= "tickets[#{game.id}]" %> onchange='handleTicketChange()'>
+                  <% (1..purchaseable_tickets(game)).each do |i| %>
+                    <option 
+                      value='<%= i %>'
+                      <%= 'selected' if @cart.count(game.id) == i %>
+                      >
+                        <%= i %>
+                    </option>
+                  <% end %>
+                </select>
+              </td>
+              <td>
+                <%= link_to remove_from_cart_path(game.id), method: :delete do %>
+                  remove<i class="material-icons tiny"></i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+
+        <%# cart is not empty %>
+
+        </tbody>
+        </table>
+        </div>
+
+        <% @tax = (@subtotal * 0.075).round() %>
+        <% @creditCardFee = ((@subtotal + @tax) * 0.022 + 30).round() %>
+        <% @total = @subtotal + @tax + @creditCardFee %>
+
+        <div class='level'>
+          <div class='level-left'></div>
+          <div class='level-right'>
+            <div class='level-item columns is-mobile'>
+              <div class='column is-narrow'>
+                <div class='columns is-mobile mb-0'>
+                  <div class='column is-narrow has-text-right'>
+                    <p>sub total</p>
+                    <p>tax</p>
+                    <p>credit card fee</p>
+                    <p><strong>total</strong></p>
+                  </div>
+
+                  <div class='column is-narrow has-text-left mb-0'>
+                    <p><%=number_to_currency(@subtotal/100)%></p>
+                    <p><%=number_to_currency(@tax/100.0)%></p>
+                    <p><%=number_to_currency(@creditCardFee/100.0)%></p>
+                    <p><strong><%=number_to_currency(@total/100.0)%></strong></p>
+                  </div>
+                </div>
+
+                <div class="has-text-centered">
+                  <% if user_signed_in? %>
+                    <%= link_to cart_checkout_path, method: :post do %>
+                        <button class='button is-primary is-fullwidth'>BUY TICKETS</button>
+                    <% end %>
+                  <% else %>
+                    <%= link_to new_user_session_path do %>
+                        <button class='button is-primary is-fullwidth'>BUY TICKETS</button>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      <% else %>
+      <%# cart is empty %>
+        <tr>
+          <td></td>
+          <td>Your cart is empty.</td>
+          <td></td>
+          <td></td>
+          <td>
+            <%= link_to games_path do %>
+              <button class="button is-primary">go to games</button>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%# old cart %>
+<%
+=begin %>
 <ul class="collection with-header">
   <li class="collection-header center-align"><h4>Your Cart</h4></li>
 
@@ -64,13 +188,15 @@
             Your cart is empty.
             <div class="secondary-content">
                 <%= link_to games_path do %>
-                    <button class="btn-small waves-effect waves-light">go to games</button>
+                  <button class="btn-small waves-effect waves-light">go to games</button>
                 <% end %>
             </div>
         </li>
     <% end %>
   </ul>
 
+<%
+=end %>
 
   <script>
     handleTicketChange = () => {
