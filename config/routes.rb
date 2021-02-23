@@ -16,4 +16,7 @@ Rails.application.routes.draw do
 
   resources :my_account, except: [:delete]
   get 'my_account/tickets', to: 'my_account#tickets', as: 'my_tickets'
+
+  resources :webhooks, only: [:create]
+  
 end
