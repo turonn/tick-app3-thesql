@@ -120,86 +120,10 @@
   </table>
 </div>
 
-<%# old cart %>
-<%
-=begin %>
-<ul class="collection with-header">
-  <li class="collection-header center-align"><h4>Your Cart</h4></li>
 
-    <% unless @cartitems == [] %>
-      <%= form_tag(adjust_tickets_path, id: 'cart-form') do %>
-      <% @cartitems.each do |game| %>
-        <li class="collection-item avatar">
-            <div>
-                <p>
-                    <%= game.gender + ' ' + game.level + ' ' + game.sport %><br/>
-                    <%= game.home_team.name + ' vs ' + game.visiting_team.name %><br/>
-                    <%= game.event_start.strftime('%B %d, %Y') %><br/>
-                    <%= game.event_start.strftime('%l:%M%p') %>
-                </p>            
-                  <div class="secondary-content right">
-                    <label for='ticknum'>number of tickets</label>
-                    <select class='browser-default' id=<%= game.id.to_s + '-tickets'%> name=<%= "tickets[#{game.id}]" %> onchange='handleTicketChange()'>
-                      <% (1..purchaseable_tickets(game)).each do |i| %>
-                        <option 
-                          value='<%= i %>'
-                          <%= 'selected' if @cart.count(game.id) == i %>
-                          >
-                            <%= i %>
-                        </option>
-                      <% end %>
-                    </select>
-                  </div>
-                  <div class="right">
-                    <% @subtotal += @cart.count(game.id) * game.price %>
-                      <%= number_to_currency(@cart.count(game.id) * game.price/100.0) + ' ' %><br/>
-                      <%= link_to remove_from_cart_path(game.id), method: :delete do %>
-                        remove<i class="material-icons tiny">delete_forever</i>
-                      <% end %>
-                  </div>
-            </div>
-        </li>
-      <% end %>
-      <% end %>
-    </ul>
-    <div class='right'>
-        <% @tax = (@subtotal * 0.075).round() %>
-        <% @creditCardFee = ((@subtotal + @tax) * 0.022 + 30).round() %>
-        <% @total = @subtotal + @tax + @creditCardFee %>
 
-        <p>sub total <span id='subtotal' class='right'><%=number_to_currency(@subtotal/100)%></span></p>
-        <p>tax <span id='tax' class='right'><%=number_to_currency(@tax/100.0)%></span></p>
-        <p>Credit Card Fee <span id='creditCardFee' class='right'><%=number_to_currency(@creditCardFee/100.0)%></span></p>
-        <p>total <span id='total' class='right'><%=number_to_currency(@total/100.0)%></span></p>
-
-        <% if user_signed_in? %>
-          <%= link_to cart_checkout_path, method: :post do %>
-              <button class='btn'>BUY TICKETS</button>
-          <% end %>
-        <% else %>
-          <%= link_to new_user_session_path do %>
-              <button class='btn'>BUY TICKETS</button>
-          <% end %>
-        <% end %>
-    </div>
-
-    <% else %>
-        <li class="collection-item">
-            Your cart is empty.
-            <div class="secondary-content">
-                <%= link_to games_path do %>
-                  <button class="btn-small waves-effect waves-light">go to games</button>
-                <% end %>
-            </div>
-        </li>
-    <% end %>
-  </ul>
-
-<%
-=end %>
-
-  <script>
-    handleTicketChange = () => {
-      document.getElementById('cart-form').submit()
-    }
-  </script>
+<script>
+  handleTicketChange = () => {
+    document.getElementById('cart-form').submit()
+  }
+</script>

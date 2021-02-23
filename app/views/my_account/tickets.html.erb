@@ -1,22 +1,40 @@
 <h1>My Tickets</h1>
 
 <h4>Tickets</h4>
-<% unless @futureUnusedTickets == [] %> 
+<% unless @futureUnusedTickets == [] %>
+    <%last = 0 %>
+    
     <% @futureUnusedTickets.each do |ticket| %>
-        <div class='card'>
-            <p><%= ticket.game.sport + ' game' %></p>
-            <p><%= ticket.game.home_team.name + ' vs. ' + ticket.game.visiting_team.name %></p>
-            <p><%= 'on ' + ticket.game.event_start.to_s %></p>
-            <div>
-                <img 
-                    src='<%= "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=#{ticket.ticket_code}" %>' 
-                    alt='<%= ticket.ticket_code %>' 
-                >
-            </div>
-            <p><%= ticket.ticket_code %></p>
-            <p><%= 'used? '+ ticket.used.to_s %></p>
-        </div>
+        <% unless ticket.game_id == last %>
+        
+            <% if last != 0 %>
+                <%# if it is not the first game, close the previous card %>
+                </div></div>
+            <% end %>
+        
+            <div class='card'>
+                <% last = ticket.game_id %>
+                <p><%= ticket.game.sport + ' game' %></p>
+                <p><%= ticket.game.home_team.name + ' vs. ' + ticket.game.visiting_team.name %></p>
+                <p><%= 'on ' + ticket.game.event_start.to_s %></p>
+                <div>
+                    <img 
+                        src='<%= "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=#{ticket.ticket_code}" %>' 
+                        alt='<%= ticket.ticket_code %>' 
+                    >
+
+        <% else %>
+            <%# if it is the same game %>
+                    <img 
+                        src='<%= "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=#{ticket.ticket_code}" %>' 
+                        alt='<%= ticket.ticket_code %>' 
+                    >
+
+        <% end %>
     <% end %>
+    <%# close last card %>
+                </div>
+            </div>
 <% else %>
     <ul>
         <li>You have no upcoming tickets.</li>

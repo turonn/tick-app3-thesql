@@ -63,9 +63,10 @@ class CartController < ApplicationController
                       user: current_user
                     })
     end
+    ticknum = session[:cart].count
     session[:cart] = []
     redirect_to my_account_index_path,
-                notice: "Successfully purchased #{session[:cart].count} #{'ticket'.pluralize(session[:cart].count)}!"
+                notice: "Successfully purchased #{ticknum} #{'ticket'.pluralize(ticknum)}!"
   end
 
   private

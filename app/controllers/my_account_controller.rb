@@ -20,9 +20,13 @@ class MyAccountController < ApplicationController
 
   def setFutureUnusedTickets
     @futureUnusedTickets = []
-    # @futureUnusedTickets = current_user.tickets.where("game.event_start > ? AND used = ?", (Date.current - 1), false)
+    # @futureUnusedTickets = current_user.tickets.where("game.event_start > ? AND used = ?", (Date.current + 1), false)
     current_user.tickets.each do |ticket|
-      @futureUnusedTickets << ticket if (ticket.game.event_start > (Date.current + 1)) && (ticket.used == false)
+      if (ticket.game.event_start > (Date.current + 1)) && (ticket.used == false)
+        @futureUnusedTickets << ticket 
+      end
     end
+    @futureUnusedTickets.sort_by! { |ticket| [ticket.game.event_start, ticket.game_id] }
   end
+
 end
