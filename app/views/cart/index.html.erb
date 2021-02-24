@@ -89,6 +89,7 @@
                     <%= link_to cart_checkout_path, method: :post do %>
                         <button class='button is-primary is-fullwidth'>BUY TICKETS</button>
                     <% end %>
+                    <button id="checkout-button" class="button is-info is-fullwidth">Checkout</button>
                   <% else %>
                     <%= link_to new_user_session_path do %>
                         <button class='button is-primary is-fullwidth'>BUY TICKETS</button>
@@ -119,7 +120,6 @@
     </tbody>
   </table>
 </div>
-
 
 
 <script>

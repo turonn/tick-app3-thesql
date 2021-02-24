@@ -15,6 +15,10 @@ class CartController < ApplicationController
     end
   end
 
+  def success; end
+
+  def cancel; end
+
   def adjust_tickets
     gid = params[:tickets].each do |k, v|
       gid = k.to_i
