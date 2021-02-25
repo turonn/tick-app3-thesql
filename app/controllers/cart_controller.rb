@@ -8,13 +8,6 @@ class CartController < ApplicationController
     end
   end
 
-  def show
-    respond_to do |format|
-      format.html { render :index }
-      format.json { render json: @cartitems, status: 200 }
-    end
-  end
-
   def success; end
 
   def cancel; end
@@ -26,10 +19,37 @@ class CartController < ApplicationController
       session[:cart].delete(gid)
       ticket_count.times { session[:cart] << gid }
     end
-    redirect_to cart_path(2)
-    # respond_to do |format|
-    #  format.json { render :index }
-    # end
+    redirect_to cart_index_path
+  end
+
+  def testing
+    games = Game.find(session[:cart])
+
+    cartItems = games.map do |game|
+      {
+        price_data: {
+          unit_amount: game.price,
+          currency: 'usd',
+          product_data: {
+            name: "#{game.home_team.name} vs. #{game.visiting_team.name}",
+            description: "#{game.gender} #{game.level} #{game.sport} on #{Date::MONTHNAMES[game.event_start.month]} #{game.event_start.day}."               
+          }
+        },
+        quantity: 1
+      }
+    end
+
+    session = Stripe::Checkout::Session.create({
+      payment_method_types: ['card'],
+      line_items: cartItems,
+      mode: 'payment',
+      success_url: cart_success_url,
+      cancel_url: cart_cancel_url
+    })
+
+    render json: {
+      id: session.id
+    }.to_json
   end
 
   def checkout
@@ -76,6 +96,7 @@ class CartController < ApplicationController
   private
 
   def load_cart
+    @stripePublicKey = Rails.application.credentials.stripe[:public_key]
     @cartitems = Game.find(session[:cart]).sort_by(&:event_start)
     @cart = session[:cart]
     @subtotal = 0

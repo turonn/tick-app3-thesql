@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get 'cart/success', to: 'cart#success', as: 'cart_success'
   post 'cart/adjust_tickets', to: 'cart#adjust_tickets', as: 'adjust_tickets'
   post 'cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
-  resources :cart, except: [:delete]
+  post 'cart/testing', to: 'cart#testing', as: 'cart_testing'
+  resources :cart, except: [:delete, :show]
 
 
   get 'my_account/tickets', to: 'my_account#tickets', as: 'my_tickets'

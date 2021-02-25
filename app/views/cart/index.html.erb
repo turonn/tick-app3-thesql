@@ -123,7 +123,7 @@
 
 
 <script>
-  handleTicketChange = () => {
-    document.getElementById('cart-form').submit()
-  }
+  var stripe = Stripe("<%= @stripePublicKey %>")
 </script>
+
+<%= javascript_pack_tag 'cart' %>
