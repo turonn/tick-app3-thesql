@@ -40,6 +40,7 @@ class CartController < ApplicationController
     end
 
     session = Stripe::Checkout::Session.create({
+      customer_email: current_user.email,
       payment_method_types: ['card'],
       line_items: cartItems,
       mode: 'payment',

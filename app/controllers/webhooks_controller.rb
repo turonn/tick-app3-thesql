@@ -5,12 +5,12 @@ class WebhooksController < ApplicationController
   def create
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = Rails.application.credentials.stripe[:secret_key]
+    # endpoint_secret = Rails.application.credentials.stripe[:secret_key]
     event = nil
 
     begin
       event = Stripe::Webhook.construct_event(
-        payload, sig_header, endpoint_secret
+        payload, sig_header#, endpoint_secret
       )
     rescue JSON::ParserError => exception
       # Invalid payload

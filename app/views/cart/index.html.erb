@@ -59,8 +59,8 @@
         </table>
         </div>
 
-        <% @tax = (@subtotal * 0.075).round() %>
-        <% @creditCardFee = ((@subtotal + @tax) * 0.022 + 30).round() %>
+        <%# <% @tax = (@subtotal * 0.075).round() %> %>
+        <% @creditCardFee = ((@subtotal + @tax) * 0.0298661174 + 30.895983522).round() %>
         <% @total = @subtotal + @tax + @creditCardFee %>
 
         <div class='level'>
