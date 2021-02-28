@@ -22,6 +22,6 @@ Rails.application.routes.draw do
   resources :my_account, except: [:delete]
   
 
-  resources :webhooks, only: [:create]
+  post '/webhooks/:source', to: 'webhooks#create'
 
 end
