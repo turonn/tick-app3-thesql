@@ -5,7 +5,12 @@ module Events
 
       case stripe_event.type
       when 'checkout.session.completed'
-        puts stripe_event.as_json
+        puts stripe_event.email
+        puts 'checkout session one'
+
+      when 'payment_intent.succeeded'
+        puts stripe_event.email
+        puts 'Payment Intent one'
       end
     end
   end

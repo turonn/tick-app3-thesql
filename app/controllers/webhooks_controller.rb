@@ -3,22 +3,19 @@ class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    if !valid_signatures?
+    unless valid_signatures?
       render json: { message: "Invalid signatures" }, status: 400
       return
     end
 
-    if !WebhookEvent.find_by(source: params[:source], external_id: external_id).nil?
+    unless WebhookEvent.find_by(source: params[:source], external_id: external_id).nil?
       render json: { message: "Already processed #{ external_id }" }
       return
     end
 
     event = WebhookEvent.create(webhook_params)
-    case params[:source]
-    when 'stripe'
-      Events::StripeHandler.process(event)
-    when 'github'
-    end
+    
+    ProcessEventsJob.perform_later(event.id)
     render json: params
   end
 
