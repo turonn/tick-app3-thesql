@@ -16,10 +16,7 @@ class WebhooksController < ApplicationController
     event = WebhookEvent.create(webhook_params)
     case params[:source]
     when 'stripe'
-      case params[:type]
-      when 'checkout.session.completed'
-        puts "It worked!"
-      end
+      Events::StripeHandler.process(event)
     when 'github'
     end
     render json: params
@@ -28,15 +25,17 @@ class WebhooksController < ApplicationController
   def valid_signatures?
     if params[:source] == 'stripe'
       begin
+        wh_secret = Rails.application.credentials.stripe[:wh_secret]
         Stripe::Webhook.construct_event(
-          request.body.ready,
+          request.body.read,
           request.env['HTTP_STRIPE_SIGNATURE'],
-
+          wh_secret
         )
       rescue Stripe::SignatureVerificationError => exception
-        
+        return false
       end
     end
+    true
   end
 
   def external_id
