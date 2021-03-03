@@ -4,17 +4,7 @@ class MyAccountController < ApplicationController
 
   def index; end
 
-  def tickets
-    respond_to do |format|
-      format.html { render :tickets }
-    end
-  end
-
-  def show
-    respond_to do |format|
-      format.html { render :tickets }
-    end
-  end
+  def tickets; end
 
   private
 

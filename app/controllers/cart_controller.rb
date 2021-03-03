@@ -8,12 +8,9 @@ class CartController < ApplicationController
     end
   end
 
-  def show
-    respond_to do |format|
-      format.html { render :index }
-      format.json { render json: @cartitems, status: 200 }
-    end
-  end
+  def cancel; end
+
+  def success; end
 
   def adjust_tickets
     gid = params[:tickets].each do |k, v|
@@ -22,10 +19,7 @@ class CartController < ApplicationController
       session[:cart].delete(gid)
       ticket_count.times { session[:cart] << gid }
     end
-    redirect_to cart_path(2)
-    # respond_to do |format|
-    #  format.json { render :index }
-    # end
+    redirect_to cart_index_path
   end
 
   def checkout
@@ -72,6 +66,7 @@ class CartController < ApplicationController
   private
 
   def load_cart
+    @stripePublicKey = Rails.application.credentials.stripe[:public_key]
     @cartitems = Game.find(session[:cart]).sort_by(&:event_start)
     @cart = session[:cart]
     @subtotal = 0
