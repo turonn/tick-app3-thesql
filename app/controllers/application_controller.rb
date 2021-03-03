@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   def initialize_cart
-    session[:cart] ||= []
+    session[:cart] ||= {}
   end
 
   def store_current_location

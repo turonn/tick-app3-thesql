@@ -57,21 +57,17 @@ class GamesController < ApplicationController
   end
 
   def add_to_cart
-    id = params[:id].to_i
-    session[:cart] << id
-    redirect_to cart_index_path
-  end
-
-  def remove_from_cart
-    id = params[:id].to_i
-    session[:cart].delete(id)
+    gid = params[:id].to_i
+    session[:cart][gid] = 1
     redirect_to cart_index_path
   end
 
   private
 
   def load_cart
-    @cartitems = Game.find(session[:cart])
+    @cartitems = session[:cart].map do |gid, tik|
+      Game.find(gid)
+    end
   end
 
   def set_future_games

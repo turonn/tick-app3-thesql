@@ -5,11 +5,11 @@ Rails.application.routes.draw do
   root to: 'games#index'
 
   post 'games/:id/add_to_cart/', to: 'games#add_to_cart', as: 'add_to_cart'
-  delete 'games/:id/remove_from_cart', to: 'games#remove_from_cart', as: 'remove_from_cart'
   resources :games, except: [:delete]
-
+  
   resources :tickets, only: %i[show index]
-
+  
+  delete 'cart/remove_from_cart', to: 'cart#remove_from_cart', as: 'remove_from_cart'
   post 'cart/adjust_tickets', to: 'cart#adjust_tickets', as: 'adjust_tickets'
   post 'cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
   get 'cart/cancel', to: 'cart#cancel', as: 'cart_cancel'

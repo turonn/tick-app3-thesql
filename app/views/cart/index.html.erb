@@ -15,7 +15,9 @@
     <tbody>
       <% unless @cartitems == [] %>
         <%= form_tag(adjust_tickets_path, id: 'cart-form') do %>
-          <% @cartitems.each do |game| %>
+          <% @cartitems.each do |pair| %>
+            <% game = pair[0] %>
+            <% ticketCount = pair[1] %>
             <tr>
               <td>
                 <span><%= game.home_team.name%><strong> (H)</strong></span><br/>
@@ -29,7 +31,7 @@
                 <%= game.event_start.strftime('%l:%M%p') %>
               </td>
               <td>
-                <% @subtotal += @cart.count(game.id) * game.price %>
+                <% @subtotal += ticketCount * game.price %>
                 <span><%= number_to_currency(game.price/100.0) %>/ea</span>
               </td>
               <td>
@@ -37,7 +39,7 @@
                   <% (1..purchaseable_tickets(game)).each do |i| %>
                     <option 
                       value='<%= i %>'
-                      <%= 'selected' if @cart.count(game.id) == i %>
+                      <%= 'selected' if ticketCount == i %>
                       >
                         <%= i %>
                     </option>
@@ -45,9 +47,7 @@
                 </select>
               </td>
               <td>
-                <%= link_to remove_from_cart_path(game.id), method: :delete do %>
-                  remove<i class="material-icons tiny"></i>
-                <% end %>
+                <%= link_to 'remove', remove_from_cart_path(id: game.id), method: :delete %>
               </td>
             </tr>
           <% end %>
