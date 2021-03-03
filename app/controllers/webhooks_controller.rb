@@ -31,12 +31,19 @@ class WebhooksController < ApplicationController
       rescue Stripe::SignatureVerificationError => exception
         return false
       end
+    else
+      #don't let things talk to webhooks that are not going to webhooks/stripe
+      return false
     end
     true
   end
 
   def external_id
-    return params[:id] if params[:source] == 'stripe'
+    if params[:source] == 'stripe'
+      return params[:id] 
+    else
+      return 1
+    end
   end
 
   def webhook_params
