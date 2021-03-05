@@ -1,4 +1,6 @@
-<h1 class="text-centered">Your Cart</h1>
+<div class='has-text-centered'>
+  <h2 class="is-size-2">Your Cart</h2>
+</div>
 
 <div class="table-container">
   <table class="table is-fullwidth is-striped">
@@ -59,7 +61,7 @@
         </table>
         </div>
 
-        <%# <% @tax = (@subtotal * 0.075).round() %> %>
+        <%# <% @tax = (@subtotal * 0.075).round() %>
         <% @creditCardFee = ((@subtotal + @tax) * 0.0298661174 + 30.895983522).round() %>
         <% @total = @subtotal + @tax + @creditCardFee %>
 
@@ -71,14 +73,14 @@
                 <div class='columns is-mobile mb-0'>
                   <div class='column is-narrow has-text-right'>
                     <p>sub total</p>
-                    <p>tax</p>
+                    <%# <p>tax</p> %>
                     <p>credit card fee</p>
                     <p><strong>total</strong></p>
                   </div>
 
                   <div class='column is-narrow has-text-left mb-0'>
                     <p><%=number_to_currency(@subtotal/100)%></p>
-                    <p><%=number_to_currency(@tax/100.0)%></p>
+                    <%# <p><%=number_to_currency(@tax/100.0)</p> %>
                     <p><%=number_to_currency(@creditCardFee/100.0)%></p>
                     <p><strong><%=number_to_currency(@total/100.0)%></strong></p>
                   </div>
@@ -86,12 +88,12 @@
 
                 <div class="has-text-centered">
                   <% if user_signed_in? %>
-                    <%= link_to cart_checkout_path, method: :post do %>
-                        <button class='button is-primary is-fullwidth'>BUY TICKETS</button>
+                    <%= link_to cart_checkout_path do %>
+                        <button class='button is-primary is-fullwidth'>CHECKOUT</button>
                     <% end %>
                   <% else %>
                     <%= link_to new_user_session_path do %>
-                        <button class='button is-primary is-fullwidth'>BUY TICKETS</button>
+                        <button class='button is-primary is-fullwidth'>sign in to checkout</button>
                     <% end %>
                   <% end %>
                 </div>
@@ -126,6 +128,4 @@
   handleTicketChange = () => {
     document.getElementById('cart-form').submit()
   }
-  var stripe = Stripe("<%= @stripePublicKey %>")
-
 </script>

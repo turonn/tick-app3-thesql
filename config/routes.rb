@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   
   delete 'cart/remove_from_cart', to: 'cart#remove_from_cart', as: 'remove_from_cart'
   post 'cart/adjust_tickets', to: 'cart#adjust_tickets', as: 'adjust_tickets'
-  post 'cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
+  post 'cart/send_to_stripe', to: 'cart#send_to_stripe', as: 'send_to_stripe'
+  post 'cart/create_payment_intent', to: 'cart#create_payment_intent', as: 'create_payment_intent'
+  get 'cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
   get 'cart/cancel', to: 'cart#cancel', as: 'cart_cancel'
   get 'cart/success', to: 'cart#success', as: 'cart_success'
   resources :cart, except: [:delete, :show]

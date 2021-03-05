@@ -28,6 +28,20 @@ class CartController < ApplicationController
   end
 
   def checkout
+    
+  end
+
+  def create_payment_intent
+    payment_intent = Stripe::PaymentIntent.create(
+      amount: 1400,
+      currency: 'usd'
+    )
+    render json: {
+      clientSecret: payment_intent['client_secret']
+    }.to_json
+  end
+
+  def send_to_stripe
     session[:cart].each do |gid, tik|
       game = Game.find(gid)
 
@@ -73,7 +87,6 @@ class CartController < ApplicationController
 
   def load_cart
     @stripePublicKey = Rails.application.credentials.stripe[:public_key]
-    #@cartitems = Game.find(session[:cart]).sort_by(&:event_start)
 
     @cartitems = session[:cart].map do | gid, tik |
       [Game.find(gid), tik]
