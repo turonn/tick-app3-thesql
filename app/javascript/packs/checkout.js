@@ -1,81 +1,31 @@
+handleTicketChange = () => {
+  document.getElementById('cart-form').submit()
+}
+
 const csrfToken = document.querySelector("[name='csrf-token']").content
 
-var purchase = {
-items: [{ id: "xl-tshirt" }]
-};
-// Disable the button until we have Stripe set up on the page
-//document.querySelector("button").disabled = true;
+var checkoutButton = document.getElementById("checkout-button");
 
-var elements = stripe.elements();
-
-//style the card input
-var style = {
-  base: {
-    color: "#32325d",
-    fontFamily: 'Arial, sans-serif',
-    fontSmoothing: "antialiased",
-    fontSize: "16px",
-    "::placeholder": {
-      color: "#32325d"
-    }
-  },
-  invalid: {
-    fontFamily: 'Arial, sans-serif',
-    color: "#fa755a",
-    iconColor: "#fa755a"
-  }
-};
-
-//import card element and mount iframe onto DOM
-var card = elements.create("card", { style: style });
-card.mount("#card-element");
-
-card.on("change", function (event) {
-  // Disable the Pay button if there are no card details in the Element
-  document.querySelector("button").disabled = event.empty;
-  document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
-});
-
-var form = document.getElementById("payment-form");
-form.addEventListener("submit", function(event) {
-  event.preventDefault();
-  fetch('/cart/create_payment_intent', {
+checkoutButton.addEventListener("click", function () {
+  fetch("/cart/checkout", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": csrfToken
-    },
-    body: JSON.stringify(
-      purchase
-      )
-    })
-    .then(function(result) {
-      return result.json();
-    })
-    .then(function(data) {
-      payWithCard(stripe, card, data.clientSecret);
-    });
+    headers: { "X-CSRF-Token": csrfToken }
   })
-
-var payWithCard = function(stripe, card, clientSecret) {
-  //loading(true);
-  console.log(stripe)
-  stripe
-    .confirmCardPayment(
-      clientSecret, 
-      {
-        payment_method: {
-          card: card
-        }
-      }
-    )
-    .then(function(result) {
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (session) {
+      return stripe.redirectToCheckout({ sessionId: session.id });
+    })
+    .then(function (result) {
+      // If redirectToCheckout fails due to a browser or network
+      // error, you should display the localized error message to your
+      // customer using error.message.
       if (result.error) {
-        // Show error to your customer
-        showError(result.error.message);
-      } else {
-        // The payment succeeded!
-        orderComplete(result.paymentIntent.id);
+        alert(result.error.message);
       }
+    })
+    .catch(function (error) {
+      console.error("Error:", error);
     });
-};
+});
