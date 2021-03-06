@@ -38,7 +38,7 @@ class CartController < ApplicationController
     )
     render json: {
       clientSecret: payment_intent['client_secret']
-    }.to_json
+    }
   end
 
   def send_to_stripe
