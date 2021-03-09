@@ -16,8 +16,11 @@ Rails.application.routes.draw do
   post 'cart/checkout', to: 'cart#checkout', as: 'cart_checkout'
   get 'cart/cancel', to: 'cart#cancel', as: 'cart_cancel'
   get 'cart/success', to: 'cart#success', as: 'cart_success'
+  get 'cart/success/clear', to: 'cart#clear', as: 'cart_success_clear'
   resources :cart, except: [:delete, :show]
 
   get 'my_account/tickets', to: 'my_account#tickets', as: 'my_tickets'
   resources :my_account, except: [:delete, :show]
+
+  resources :webhooks, only: [:create]
 end

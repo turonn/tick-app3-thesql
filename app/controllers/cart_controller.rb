@@ -1,7 +1,8 @@
 class CartController < ApplicationController
-  before_action :load_cart
 
   def index
+    load_cart
+
     respond_to do |format|
       format.html { render :index }
       format.json { render json: @cartitems, status: 200 }
@@ -11,6 +12,11 @@ class CartController < ApplicationController
   def cancel; end
 
   def success; end
+  
+  def clear
+    session[:cart] = {}
+    redirect_to cart_success_path
+  end
 
   def adjust_tickets
     params[:tickets].each do |k, v|
@@ -30,7 +36,9 @@ class CartController < ApplicationController
   def checkout
     #run private method to check to see if the games are sold out,
     #buying more tickets than availible, or in the past
-    check_ticket_availibility
+    unless check_ticket_availibility
+      return false
+    end
 
     subTotal = 0
 
@@ -61,35 +69,26 @@ class CartController < ApplicationController
         },
         quantity: 1
       }
-        
+    
+    meta_data = session[:cart]
+    meta_data['user_id'] = current_user.id
+
     session = Stripe::Checkout::Session.create({
       customer_email: current_user.email,
       payment_method_types: ['card'],
       line_items: cartItems,
       mode: 'payment',
-      success_url: cart_success_url,
+      metadata: meta_data,
+      success_url: cart_success_clear_url,
       cancel_url: cart_cancel_url
     })
+    
+    #for some reason session[:cart] is grabbing user_id
+    #meta_data.delte('user_id')
 
     render json: {
       id: session.id
     }.to_json
-  end
-
-  def create_tickets
-    ticknum = 0
-    session[:cart].each do |gid, tik|
-      ticknum += tik
-      tik.times do
-        Ticket.create({
-                        game: Game.find(gid),
-                        user: current_user
-                      })
-      end
-    end
-    session[:cart] = {}
-    redirect_to cart_success_path,
-                notice: "Successfully purchased #{ticknum} #{'ticket'.pluralize(ticknum)}!"
   end
 
   private
@@ -118,14 +117,14 @@ class CartController < ApplicationController
         redirect_to cart_index_path notice:
           "Could not complete purchase. #{game.gender} #{game.sport} game vs. #{game.visiting_team.name}
             on #{Date::MONTHNAMES[game.event_start.month]} #{game.event_start.day} has already happened."
-        return
+        return false
 
       elsif game.tickets.count >= game.max_capacity
         session[:cart].delete("#{gid}")
         redirect_to cart_index_path, notice:
           "Could not complete purchase. #{game.gender} #{game.sport} game vs. #{game.visiting_team.name}
             on #{Date::MONTHNAMES[game.event_start.month]} #{game.event_start.day} is sold out."
-        return
+        return false
 
       elsif (game.tickets.count + tik) > game.max_capacity
         session[:cart]["#{gid}"] = remaining_tickets
@@ -133,8 +132,9 @@ class CartController < ApplicationController
           "Could not complete purchase. #{game.gender} #{game.sport} game vs. #{game.visiting_team.name}
             on #{Date::MONTHNAMES[game.event_start.month]} #{game.event_start.day} does not have #{tik}
             #{'ticket'.pluralize(tik)} left."
-        return
+        return false
       end
     end
+    return true
   end
 end
