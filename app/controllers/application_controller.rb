@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
 
   def initialize_cart
     session[:cart] ||= {}
+    session[:cart].delete('user_id') if session[:cart].include?('user_id')
   end
 
   def store_current_location
