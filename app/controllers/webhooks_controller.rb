@@ -80,7 +80,6 @@ class WebhooksController < ApplicationController
       when 'checkout.session.completed'
         checkout_session = event.data.object #contains a Stripe::PaymentIntent
         create_tickets(checkout_session.metadata)
-      when 'payment_method.attached'
       else
         puts "unhandled event type: #{event.type}"
     end
@@ -92,14 +91,10 @@ class WebhooksController < ApplicationController
   private
 
   def create_tickets(metadata)
-    ticknum = 0
     user = User.find(metadata.user_id)
-
 
     metadata.as_json.except('user_id').each do |gid, tiks|      
       tik = tiks.to_i
-      ticknum += tik
-      
       tik.times do
         Ticket.create({
                         game: Game.find(gid),
@@ -107,8 +102,6 @@ class WebhooksController < ApplicationController
                       })
       end
     end
-    # session[:cart] = {}
-    #notice: "Successfully purchased #{ticknum} #{'ticket'.pluralize(ticknum)}!"
   end
 
 end
