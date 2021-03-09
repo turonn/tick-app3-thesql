@@ -23,4 +23,6 @@ Rails.application.routes.draw do
   resources :my_account, except: [:delete, :show]
 
   resources :webhooks, only: [:create]
+
+  resources :scanner, only: [:update]
 end
