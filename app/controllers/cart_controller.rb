@@ -70,7 +70,7 @@ class CartController < ApplicationController
         quantity: 1
       }
     
-    meta_data = session[:cart]
+    meta_data = session[:cart].as_json
     meta_data['user_id'] = current_user.id
 
     session = Stripe::Checkout::Session.create({
