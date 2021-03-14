@@ -16,7 +16,16 @@
                 <% last = ticket.game_id %>
                 <p><%= ticket.game.sport + ' game' %></p>
                 <p><%= ticket.game.home_team.name + ' vs. ' + ticket.game.visiting_team.name %></p>
-                <p><%= 'on ' + ticket.game.event_start.to_s %></p>
+                <p>
+                    <%= Date::DAYNAMES[ticket.game.event_start.wday].to_s + 
+                    ', ' + Date::MONTHNAMES[ticket.game.event_start.month] +
+                    ' ' + ticket.game.event_start.day.to_s + 
+                    ' at ' %>
+                    <%if ticket.game.event_start.hour > 11 %>
+                        <%= ticket.game.event_start.hour - 11 %>:<%= ticket.game.event_start.min %>pm
+                    <% else %>
+                        <%= ticket.game.event_start.hour %>:<%= ticket.game.event_start.min %>am
+                    <% end %>
                 <div>
                     <img 
                         src='<%= "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=#{ticket.ticket_code}" %>' 
