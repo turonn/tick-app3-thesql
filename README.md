@@ -14,6 +14,12 @@ Then, you will need to log in to a Stripe. Run the following command to log in:
 
 Follow the terminal prompts to sync your Stripe account with the CLI.
 
+Edit your Rails Credentials file to include your stripe public, private, and webhook secret keys. Run the following command and nest your credentials here:
+
+<code>EDITOR=vi bin/rails credentials:edit</code>
+
+For those new to VI, type <code>i</code> wile in the "strange" view to enter the editor and <code>:wq</code> to quit and save.
+
 Finally, you will need to run the Stripe CLI in conjunction to the rails server locally. Run the following code in an open terminal to tell Stripe to listen to your local machiene for webhooks:
 
 <code>stripe listen --forward-to localhost:3000/webhooks</code>
