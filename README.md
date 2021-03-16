@@ -6,6 +6,8 @@ To run this program you will need the stripe Comand Line Interface. To install t
 
 <code>brew install stripe/stripe-cli/stripe</code>
 
+Additional instructions for installing the Stripe Command Line Interface can be found here: https://stripe.com/docs/stripe-cli
+
 Then, you will need to log in to a Stripe. Run the following command to log in:
 
 <code>stripe login</code>
