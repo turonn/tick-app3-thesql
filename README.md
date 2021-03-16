@@ -25,3 +25,29 @@ If your rails server crashes, you can force kill it with the following command:
 <code>sudo kill -9 $(lsof -i :3000 -t)</code>
 
 At times the Stripe CLI will stop listening to the rails server. If you stop getting responses from the Stripe CLI, just close it and restart it again.
+
+<h3>Usage</h3>
+
+Parents and fans will be able to browse future upcoming games on the root path. They will select the tickets they would like to purchase here and they will be redirected to the cart view. Inside the cart view they can adjust the number of tickets they want to purchase for that game and add other games to the cart if they wish.
+
+When they hit checkout, they will be prompted to sing in or create an account. After they are logged in, they will be redirected to Stripe for payment. Upon successfull completion of checkout payment, the tickets they have purchased will be genereated under "my tickets" as a part of "my account."
+
+Tickets for games occuring in the future that have not been used will populate in the "my tickets" view nested under the appropriate game.
+
+Administrators can be granted administrator privledges to view '/admin'.
+
+<h3>Future improvements</h3>
+
+<ul>
+  <li>Track webhooks to rerun in case of failure. Perhaps a WebhookEvents Model</li>
+  <li>Create an OAuth system so fans will not have to creat a new account</li>
+  <li>Host project to AWS</li>
+  <li>Integrate with Google Wallet and Apple Wallet for ticket display</li>
+  <li>Send copy of tickets to user in an email after purchase</li>
+  <li>Styling</li>
+  <ul>
+    <li>Stylize the game cards so that the calendar looks like a calendar</li>
+    <li>Stylize the cart view for mobile so they don't have to side scroll to see all details</li>
+    <li>Stylize ticket views to be an image carosel</li>
+  </ul>
+</ul>
