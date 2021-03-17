@@ -32,7 +32,9 @@ If your rails server crashes, you can force kill it with the following command:
 
 At times the Stripe CLI will stop listening to the rails server. If you stop getting responses from the Stripe CLI, just close it and restart it again.
 
-<h3>Usage</h3>
+If you are using this app after September of 2021, the seed data will be in the past so the controllers will filter it out of your games and ticket views. To fix this, adjust your seed data to be in the future.
+
+<h3>3. Usage</h3>
 
 Parents and fans will be able to browse future upcoming games on the root path. They will select the tickets they would like to purchase here and they will be redirected to the cart view. Inside the cart view they can adjust the number of tickets they want to purchase for that game and add other games to the cart if they wish.
 
@@ -42,7 +44,7 @@ Tickets for games occuring in the future that have not been used will populate i
 
 Administrators can be granted administrator privledges to view '/admin'.
 
-<h3>Future improvements</h3>
+<h3>4. Future improvements</h3>
 
 <ul>
   <li>Track webhooks to rerun in case of failure. Perhaps a WebhookEvents Model</li>
