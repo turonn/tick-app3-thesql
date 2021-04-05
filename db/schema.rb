@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2021_02_03_163330) do
     t.bigint "home_team_id", null: false
     t.bigint "visiting_team_id", null: false
     t.string "location"
+    t.text "extra_details"
     t.integer "max_capacity"
     t.datetime "event_start"
     t.integer "price"

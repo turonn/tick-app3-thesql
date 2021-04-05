@@ -4,6 +4,7 @@
 #
 #  id               :bigint           not null, primary key
 #  event_start      :datetime
+#  extra_details    :text
 #  gender           :string
 #  level            :string
 #  location         :string

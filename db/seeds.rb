@@ -46,6 +46,7 @@ games = Game.create([
                         visiting_team_id: 2,
                         max_capacity: '1000',
                         location: 'Paint Valley High School',
+                        extra_details: '50/50 raffle to support the PV ROTC program sold throughout the game! Winner drawn in 3rd quarter.',
                         event_start: DateTime.new(2021, 9, 1, 19, 30),
                         price: 500
                       },
@@ -58,6 +59,7 @@ games = Game.create([
                         visiting_team_id: 3,
                         max_capacity: '1000',
                         location: 'Paint Valley High School',
+                        extra_details: 'Black out the Redstreaks! Wear all black to support our Bearcats!',
                         event_start: DateTime.new(2021, 9, 8, 15, 15),
                         price: 500
                       },
@@ -69,6 +71,7 @@ games = Game.create([
                         visiting_team_id: 4,
                         max_capacity: '270',
                         location: 'Paint Valley Middle School',
+                        extra_details: 'Masks required at all times while spectating.',
                         event_start: DateTime.new(2021, 9, 5, 8, 45),
                         price: 700
                       },
@@ -80,6 +83,7 @@ games = Game.create([
                         visiting_team_id: 2,
                         max_capacity: '500',
                         location: 'Paint Valley High School',
+                        extra_details: "Tonight's sponsor is McDonald's of Chillicothe!",
                         event_start: DateTime.new(2020, 4, 5, 5, 30),
                         price: 500
                       }
